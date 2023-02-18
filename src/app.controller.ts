@@ -9,4 +9,9 @@ export class AppController {
   async getStats(@Param('user') user): Promise<string> {
     return await this.appService.getStats(user);
   }
+
+  @Get()
+  async getDefaultStats(): Promise<string> {
+    return await this.appService.getStats('QuadriniL');
+  }
 }
