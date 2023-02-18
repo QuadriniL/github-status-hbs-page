@@ -6,13 +6,13 @@ import * as fs from 'fs';
 export class AppService {
   template = fs.readFileSync('src/views/stats.hbs', 'utf8');
 
-  async getStats(): Promise<string> {
+  async getStats(user: string): Promise<string> {
     const githubStats = await fetch(
-      'https://api.github.com/search/commits?q=author:QuadriniL',
+      `https://api.github.com/search/commits?q=author:${user}`,
     ).then((res) => res.json());
 
     const gitProfileRepos = await fetch(
-      'https://api.github.com/users/QuadriniL/repos',
+      `https://api.github.com/users/${user}/repos`,
     ).then((res) => res.json());
 
     const stars = gitProfileRepos.reduce(
@@ -44,6 +44,7 @@ export class AppService {
       commits,
       stars,
       languages: Object.keys(languagesWithCount).length,
+      user,
     });
   }
 }
