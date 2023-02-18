@@ -1,0 +1,129 @@
+<html>
+  <head>
+    <title>Stats</title>
+    <style>
+      #container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 200px;
+        width: 300px;
+        background: #363636;
+        border-radius: 10px;
+        border: #454545 3px solid;
+      }
+
+      .progress-bar {
+        margin-top: 16px;
+        height: 4px;
+        width: 0;
+        border-radius: 5px;
+        transition: width 1s ease-in-out;
+      }
+
+      #progress-bar {
+        width: 100%;
+        display: flex;
+      }
+
+      #rank {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        align-items: center;
+        justify-content: center;
+        margin-right: 8px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <h3 style="align-self: flex-start; margin-left: 16px">Raposo Github stats</h3>
+
+      <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; width: 90%; margin-top: 8px">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center">
+          <h3 style="margin: 0">Commits</h3>
+          <h1 style="margin: 0" id="commits"></h1>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center">
+          <h3 style="margin: 0">Stars</h3>
+          <h1 style="margin: 0" id="stars"></h1>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center">
+          <h3 style="margin: 0">Languages</h3>
+          <h1 style="margin: 0" id="languages"></h1>
+        </div>
+      </div>
+
+      <div id="rank">
+        <div id="progress-bar">
+          <div id="progress" class="progress-bar"></div>
+          <div id="rest-of-progress" class="progress-bar"></div>
+        </div>
+        <div id="rank-label"></div>
+      </div>
+    </div>
+    <script>
+      const commits = {{commits}};
+      const stars = {{stars}};
+      const languages = {{languages}};
+
+      let rank = '';
+      let color = '';
+
+      if (commits < 10) {
+        rank = 'Beginner developer';
+      } else if (commits < 60) {
+        rank = 'Intermediate developer';
+      } else if (commits < 80) {
+        rank = 'Expert developer';
+      } else {
+        rank = 'Legend developer';
+      }
+
+      switch (rank) {
+        case 'Beginner developer':
+          color = 'red';
+          break;
+        case 'Intermediate developer':
+          color = 'orange';
+          break;
+        case 'Expert developer':
+          color = 'green';
+          break;
+        case 'Legend developer':
+          color = 'blue';
+          break;
+      }
+
+      let rankPercentage = (commits / 50) * 100
+      if (rankPercentage > 100) {
+        rankPercentage = 100;
+      }
+
+      const progressBar = document.getElementById('progress');
+      progressBar.style.width = `${rankPercentage}%`;
+      progressBar.style.backgroundColor = color;
+
+      const restOfProgressBar = document.getElementById('rest-of-progress');
+      restOfProgressBar.style.width = `${100 - rankPercentage}%`;
+      restOfProgressBar.style.backgroundColor = '#646464';
+      restOfProgressBar.style.borderTopLeftRadius = '0';
+      restOfProgressBar.style.borderBottomLeftRadius = '0';
+      restOfProgressBar.style.marginLeft = '-2px';
+
+      const rankLabel = document.getElementById('rank-label');
+      rankLabel.innerHTML = rank;
+
+      const commitsLabel = document.getElementById('commits');
+      commitsLabel.innerHTML = commits;
+
+      const starsLabel = document.getElementById('stars');
+      starsLabel.innerHTML = stars;
+
+      const languagesLabel = document.getElementById('languages');
+      languagesLabel.innerHTML = languages;
+    </script>
+  </body>
+</html>
