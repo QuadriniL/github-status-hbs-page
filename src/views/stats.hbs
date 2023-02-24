@@ -2,6 +2,10 @@
   <head>
     <title>Stats</title>
     <style>
+      * {
+        font-family: 'Tilt Warp', cursive;
+      }
+
       #container {
         display: flex;
         flex-direction: column;
@@ -10,7 +14,38 @@
         width: 300px;
         background: #363636;
         border-radius: 10px;
-        border: #454545 3px solid;
+      }
+
+      #container::before, #container::after {
+        z-index: -1;
+        content: '';
+        position: absolute;
+        width: 310px;
+        height: 210px;
+        margin-top: -5px;
+        background: linear-gradient(45deg, #ffff00, #00ff00, #0099ff, #001aff, #a200ff, #ff0055, #ff0000);
+        background-size: 300%;
+        border-radius: 10px;
+        animation: border-animation 4s infinite alternate linear;
+      }
+
+      #container::after {
+        filter: blur(20px);
+      }
+
+      #rainbow {
+        background: linear-gradient(45deg, #ffff00, #00ff00, #0099ff, #001aff, #a200ff, #ff0055, #ff0000);
+        animation: border-animation 4s infinite alternate linear;
+        background-size: 300%;
+      }
+
+      @keyframes border-animation {
+        0% {
+          background-position: 0;
+        }
+        100% {
+          background-position: 100%;
+        }
       }
 
       .progress-bar {
@@ -35,7 +70,14 @@
         margin-right: 8px;
       }
 
+      #rank-label {
+        font-family: 'Tilt Warp', cursive;
+      }
+
     </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap" rel="stylesheet">
   </head>
   <body>
     <div id="container">
@@ -106,6 +148,9 @@
       const progressBar = document.getElementById('progress');
       progressBar.style.width = `${rankPercentage}%`;
       progressBar.style.backgroundColor = color;
+      progressBar.id = 'rainbow';
+
+
 
       const restOfProgressBar = document.getElementById('rest-of-progress');
       restOfProgressBar.style.width = `${100 - rankPercentage}%`;
