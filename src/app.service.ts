@@ -1,12 +1,13 @@
 import * as handlebars from 'handlebars';
 import { Injectable } from '@nestjs/common';
-import * as fs from 'fs';
 
 @Injectable()
 export class AppService {
-  template = fs.readFileSync('src/views/stats.hbs', 'utf8');
-
   async getStats(user: string): Promise<string> {
+    const template = await fetch(
+      `https://raw.githubusercontent.com/QuadriniL/public-templates/main/assets/handlebars/stats.hbs`,
+    ).then((r) => r.text());
+
     const githubStats = await fetch(
       `https://api.github.com/search/commits?q=author:${user}`,
     ).then((res) => res.json());
@@ -39,7 +40,7 @@ export class AppService {
 
     const commits = githubStats.total_count;
 
-    const compiled = handlebars.compile(this.template);
+    const compiled = handlebars.compile(template);
     return compiled({
       commits,
       stars,
